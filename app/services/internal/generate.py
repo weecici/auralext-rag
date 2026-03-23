@@ -10,7 +10,6 @@ event loop is never blocked.
 import asyncio
 from functools import lru_cache
 from typing import Any
-
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 
@@ -44,11 +43,10 @@ provided context documents. Follow these rules:
 
 1. Use ONLY the information from the context to answer. If the context does \
 not contain enough information, say so honestly.
-2. Cite document titles or sources when referencing specific information.
-3. Be concise and direct. Avoid unnecessary filler.
-4. If the user asks a follow-up question, use conversation history for context \
+2. Be concise and direct. Avoid unnecessary filler.
+3. If the user asks a follow-up question, use conversation history for context \
 but always ground answers in the retrieved documents.
-5. Answer in the same language as the user's question.
+4. Answer in the same language as the user's question.
 """
 
 
@@ -104,9 +102,12 @@ def build_messages(
         )
     ]
 
-    _role_map = {"user": HumanMessage, "assistant": AIMessage}
+    _role_map: dict[str, type[BaseMessage]] = {
+        "user": HumanMessage,
+        "assistant": AIMessage,
+    }
     for h in history:
-        cls = _role_map.get(h["role"])
+        cls = _role_map.get(h["role"], HumanMessage)
         if cls:
             messages.append(cls(content=h["content"]))
 

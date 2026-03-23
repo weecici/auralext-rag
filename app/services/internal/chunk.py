@@ -4,7 +4,7 @@ import asyncio
 from dataclasses import dataclass
 from functools import lru_cache
 from typing import Optional
-
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -23,8 +23,8 @@ class TextChunk:
     """A chunk of text with its position metadata."""
 
     text: str
-    index: int           # 0-based position within the source document
-    source: str          # originating file path or identifier
+    index: int  # 0-based position within the source document
+    source: str  # originating file path or identifier
     title: Optional[str] = None  # populated later by LLM
 
 
@@ -59,18 +59,7 @@ def chunk_text(
 # ---------------------------------------------------------------------------
 
 
-@lru_cache(maxsize=1)
-def _get_title_llm() -> ChatGoogleGenerativeAI:
-    """Return a cached LLM client configured for title generation."""
-    return ChatGoogleGenerativeAI(
-        google_api_key=settings.GOOGLE_API_KEY,
-        model=settings.TITLE_GEN_MODEL,
-        temperature=0.0,
-        max_tokens=settings.TITLE_MAX_TOKENS,
-    )
-
-
-_TITLE_SYSTEM_PROMPT = (
+TITLE_SYSTEM_PROMPT = (
     f"You are a concise title generator. Given a text chunk from a document:\n"
     f"- Produce a short title with at most {settings.TITLE_MAX_TOKENS} tokens"
     f" that captures the main topic.\n"
@@ -79,16 +68,34 @@ _TITLE_SYSTEM_PROMPT = (
     f"- Output ONLY the title, with no extra explanation or formatting."
 )
 
+PROMPT_TEMPLATE = ChatPromptTemplate.from_messages(
+    [
+        (
+            "human" if settings.TITLE_GEN_MODEL.startswith("gemma-3") else "system",
+            TITLE_SYSTEM_PROMPT,
+        ),
+        ("human", "{text}"),
+    ]
+)
+
+
+@lru_cache(maxsize=1)
+def _get_title_llm() -> ChatGoogleGenerativeAI:
+    """Return a cached LLM client configured for title generation."""
+    return ChatGoogleGenerativeAI(
+        google_api_key=settings.GOOGLE_API_KEY,
+        model=settings.TITLE_GEN_MODEL,
+        temperature=settings.TITLE_GEN_TEMPERATURE,
+        max_tokens=settings.TITLE_MAX_TOKENS,
+    )
+
 
 def _generate_title_sync(text: str) -> str | None:
     """Call Google Generative AI to generate a title for a chunk (blocking)."""
     llm = _get_title_llm()
     try:
         response = llm.invoke(
-            [
-                SystemMessage(content=_TITLE_SYSTEM_PROMPT),
-                HumanMessage(content=text[:2000]),  # limit context
-            ]
+            PROMPT_TEMPLATE.format_messages(text=text),
         )
         title = (response.content or "").strip().strip("\"'")
         return title or None

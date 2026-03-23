@@ -30,6 +30,7 @@ class Settings(BaseSettings):
     # title generation
     TITLE_GEN_ENABLED: bool = False
     TITLE_GEN_MODEL: str = "gemma-3-27b-it"
+    TITLE_GEN_TEMPERATURE: float = 0.3
     TITLE_MAX_TOKENS: int = 50
 
     # Speech to text

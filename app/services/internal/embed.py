@@ -11,8 +11,8 @@ is provided, because it applies asymmetric projection internally.
 
 import asyncio
 from functools import lru_cache
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from typing import Optional
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
 from app.core.config import settings
 from app.core.logging import logger
