@@ -22,7 +22,7 @@ class ModelObject(BaseModel):
     id: str
     object: str = "model"
     created: int = Field(default_factory=lambda: int(time.time()))
-    owned_by: str = "audio-rag"
+    owned_by: str = "auralext-rag"
 
 
 class ModelListResponse(BaseModel):

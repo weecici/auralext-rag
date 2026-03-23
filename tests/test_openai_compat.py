@@ -262,7 +262,7 @@ class TestModelsEndpoint:
         assert data["data"][0]["id"] == "RAG_KB/cs431_lectures"
         assert data["data"][1]["id"] == "RAG_KB/ml_papers"
         assert data["data"][0]["object"] == "model"
-        assert data["data"][0]["owned_by"] == "audio-rag"
+        assert data["data"][0]["owned_by"] == "auralext-rag"
 
     def test_list_models_empty(self, client: TestClient):
         with patch(
@@ -859,7 +859,7 @@ class TestOpenAISchemas:
         m = ModelObject(id="RAG_KB/docs")
         assert m.id == "RAG_KB/docs"
         assert m.object == "model"
-        assert m.owned_by == "audio-rag"
+        assert m.owned_by == "auralext-rag"
         assert isinstance(m.created, int)
 
     def test_model_list_response(self):

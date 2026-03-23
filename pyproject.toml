@@ -1,7 +1,7 @@
 [project]
-name = "audio-rag"
-version = "0.1.0"
-description = "Audio RAG"
+name = "auralext-rag"
+version = "1.0.0"
+description = "Auralext RAG: A powerful Retrieval-Augmented Generation (RAG) system for audio and text content."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [

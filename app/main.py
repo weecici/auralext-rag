@@ -16,7 +16,7 @@ from app.middleware import (
 
 def create_app() -> FastAPI:
     application = FastAPI(
-        title="Audio RAG Service",
+        title="Auralext RAG System",
         version="1.0.0",
         description="Retrieval-Augmented Generation API for audio and document sources.",
     )

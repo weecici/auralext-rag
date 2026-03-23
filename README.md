@@ -1,4 +1,4 @@
-# Audio2Text RAG
+# Auralext RAG System
 
 A production-grade **Retrieval-Augmented Generation** system that ingests text and audio documents, builds a searchable vector store, and serves multi-turn conversational AI with source-grounded answers. Designed with a clean layered architecture, async-first concurrency, GPU memory safety, and drop-in OpenAI API compatibility for [Open WebUI](https://github.com/open-webui/open-webui) integration.
 
