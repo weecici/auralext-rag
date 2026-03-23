@@ -567,7 +567,6 @@ sequenceDiagram
 | **Reranking**         | `BAAI/bge-reranker-v2-m3` (CrossEncoder) | Cross-encoder relevance scoring                        |
 | **Speech-to-Text**    | faster-whisper (CTranslate2)             | Batched audio transcription                            |
 | **Text Processing**   | LangChain                                | Document loaders (PDF, DOCX, TXT) and text splitting   |
-| **NLP**               | Underthesea                              | Vietnamese language support                            |
 | **Streaming**         | SSE (sse-starlette)                      | Token-by-token response streaming                      |
 | **UI**                | Open WebUI v0.8                          | Chat interface via OpenAI-compatible API               |
 | **Package Manager**   | uv                                       | Fast Python dependency management                      |
