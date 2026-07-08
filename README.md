@@ -31,6 +31,9 @@ A production-grade **Retrieval-Augmented Generation** system that ingests text a
 
 ## Getting Started
 
+### Docker image
+- Docker image is available at [here](https://github.com/weecici/auralext-rag/pkgs/container/auralext-rag)
+
 ### Prerequisites
 
 - Python 3.13+
