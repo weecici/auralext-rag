@@ -1,0 +1,36 @@
+# Git
+.git
+.github
+.gitignore
+
+# Python virtual environment and caches
+.venv
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Docker/Compose
+Dockerfile
+.dockerignore
+compose.yaml
+.volumes/
+
+# Local configuration and storage files
+.env
+.env.*
+!.env.example
+.storage/
+tmp*
+data*/**
+
+# Build artifacts
+build/
+dist/
+wheels/
+*.egg-info/
+
+# Tests
+tests/

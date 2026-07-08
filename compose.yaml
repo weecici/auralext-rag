@@ -114,6 +114,27 @@ services:
     volumes:
       - ${DOCKER_VOLUME_DIRECTORY:-.}/.volumes/open-webui:/app/backend/data
 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: auralext-rag-app
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # Use container hostnames when running in the Docker Compose network
+      - MILVUS_URI=http://standalone:19530
+      - REDIS_HOST=cache
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    depends_on:
+      standalone:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+
 networks:
   default:
     name: milvus
+
